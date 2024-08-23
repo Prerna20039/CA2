@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New User</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Create New User</h1>
+        <form action="/api/users/add" method="post">
+            <div>
+                <label for="userId">User ID:</label>
+                <input type="text" name="userId" required>
+            </div>
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" name="name" required>
+            </div>
+            <div>
+                <label for="role">Role:</label>
+                <select name="role" required>
+                    <option value="" disabled selected>Select a role</option>
+                    <option value="hod">HOD</option>
+                    <option value="driver">Driver</option>
+                    <option value="employee">Employee</option>
+                    <option value="Dhod">DriverHod</option>
+                </select>
+            </div>
+            <div>
+                <label for="department">Department:</label>
+                <select name="department" required>
+                    <option value="" disabled selected>Select a department</option>
+                    <option value="Bangalore">Bangalore</option>
+                    <option value="Noida">Noida</option>
+                    <option value="Gurgaon">Gurgaon</option>
+                </select>
+            </div>
+            <div id="hod-container" style="display:none;">
+                <label for="hodId">Assign HOD:</label>
+                <select id="hodId" name="hodId">
+                    <option value="" disabled selected>Select an HOD</option>
+                    <% hods.forEach(hod => { %>
+                        <option value="<%= hod._id %>"><%= hod.name %> (ID: <%= hod.userId %>)</option>
+                    <% }); %>
+                </select>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit">Add User</button>
+        </form>
+
+        <script>
+            document.querySelector('[name="role"]').addEventListener('change', function() {
+                const hodContainer = document.getElementById('hod-container');
+                if (this.value === 'employee') {
+                    hodContainer.style.display = 'block';
+                } else {
+                    hodContainer.style.display = 'none';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
